@@ -298,8 +298,7 @@ All three team members contributed to the overall project direction, reviewed pr
 ```{r, echo=TRUE, eval=FALSE}
 # Style Guide: Tidyverse Style Guide
 # Code Header
-# Primary Author: Shaan Patel
-# Reviewers: Tammar Reza and Logan Howard
+# Author: Shaan Patel Tammar Reza and Logan Howard
 
 library(readxl)
 library(tidyverse)
