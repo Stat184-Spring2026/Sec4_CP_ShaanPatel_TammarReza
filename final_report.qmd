@@ -65,8 +65,7 @@ The first step in our analysis is to import the CPI data into R and organize it 
 
 ```{r}
 # Code Header
-# Primary Author: Shaan Patel
-# Reviewers: Tammar Reza and Logan Howard
+# Author: Shaan Patel Tammar Reza and Logan Howard
 
 make_long_cpi <- function(file_name, category_name) {
   read_excel(file_name, skip = 11) %>%
@@ -142,8 +141,7 @@ One of our main questions is whether grocery prices and restaurant prices change
 #| fig-pos: "H"
 
 # Code Header
-# Primary Author: Shaan Patel
-# Reviewers: Tammar Reza and Logan Howard
+# Author: Shaan Patel Tammar Reza and Logan Howard
 
 ggplot(combined_food_location, aes(x = Date, y = Index, color = Category)) +
   geom_line(linewidth = 1.2) +
@@ -171,8 +169,7 @@ Next, we compare several major food categories. This helps us see whether all ty
 #| fig-pos: "H"
 
 # Code Header
-# Primary Author: Shaan Patel
-# Reviewers: Tammar Reza and Logan Howard
+# Author: Shaan Patel Tammar Reza and Logan Howard
 
 ggplot(food_categories, aes(x = Date, y = Index, color = Category)) +
   geom_line(linewidth = 1.1) +
@@ -198,8 +195,7 @@ To make the category comparison easier to understand, we also calculate the perc
 #| tbl-cap: "Percent increase in CPI by food category from 2000 to 2025."
 
 # Code Header
-# Primary Author: Shaan Patel
-# Reviewers: Tammar Reza and Logan Howard
+# Author: Shaan Patel Tammar Reza and Logan Howard
 
 compute_percent_increase <- function(df_long) {
   df_long %>%
@@ -229,18 +225,21 @@ Table 1 summarizes how much each category increased between 2000 and 2025. This 
 #| fig-pos: "H"
 
 # Code Header
-# Primary Author: Shaan Patel
-# Reviewers: Tammar Reza and Logan Howard
+# Author: Shaan Patel Tammar Reza and Logan Howard
 
-ggplot(category_increases, aes(x = reorder(Category, `Percent Increase`), y = `Percent Increase`)) +
+ggplot(category_increases, aes(x = reorder(Category, `Percent Increase`), 
+                               y = `Percent Increase`, 
+                               fill = Category)) +
   geom_col(width = 0.7) +
   coord_flip() +
   labs(
     title = "Percent Increase in Food Category CPI",
     x = "Food Category",
-    y = "Percent Increase"
+    y = "Percent Increase",
+    fill = "Category"
   ) +
-  theme_minimal(base_size = 14)
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "none")
 ```
 
 Figure 3 makes it easier to see which food categories increased the most overall. Categories with taller bars had larger percent increases over the time period.
@@ -402,13 +401,17 @@ kable(
   caption = "Percent increase in CPI by food category from 2000 to 2025."
 )
 
-ggplot(category_increases, aes(x = reorder(Category, `Percent Increase`), y = `Percent Increase`)) +
+ggplot(category_increases, aes(x = reorder(Category, `Percent Increase`), 
+                               y = `Percent Increase`, 
+                               fill = Category)) +
   geom_col(width = 0.7) +
   coord_flip() +
   labs(
     title = "Percent Increase in Food Category CPI",
     x = "Food Category",
-    y = "Percent Increase"
+    y = "Percent Increase",
+    fill = "Category"
   ) +
-  theme_minimal(base_size = 14)
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "none")
 ```
