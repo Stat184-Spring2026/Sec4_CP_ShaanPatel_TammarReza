@@ -1,7 +1,11 @@
 ---
 title: "Food Price Changes Over Time in the United States"
 author: "Shaan Patel, Tammar Reza, Logan Howard"
-format: pdf
+format:
+  pdf:
+    include-in-header:
+      text: |
+        \usepackage{float}
 execute:
   echo: false
   warning: false
@@ -11,8 +15,6 @@ execute:
 ```{r}
 # Style Guide: Tidyverse Style Guide
 # Code Header
-# Primary Author: Shaan Patel
-# Reviewers: Tammar Reza and Logan Howard
 
 library(readxl)
 library(tidyverse)
@@ -131,12 +133,13 @@ This cleaning process makes the data easier to compare across time and across ca
 
 ## Grocery Prices vs Restaurant Prices
 
-One of our main questions is whether grocery prices and restaurant prices changed in the same way over time. @fig-grocery-restaurant compares CPI trends for groceries and restaurants.
+One of our main questions is whether grocery prices and restaurant prices changed in the same way over time. Figure 1 compares CPI trends for groceries and restaurants.
 
 ```{r}
 #| label: fig-grocery-restaurant
 #| fig-cap: "CPI trends for grocery prices and restaurant prices over time."
 #| fig-alt: "Line graph comparing grocery CPI and restaurant CPI over time. Both lines increase, but restaurant prices rise more steadily while grocery prices show more uneven movement."
+#| fig-pos: "H"
 
 # Code Header
 # Primary Author: Shaan Patel
@@ -159,12 +162,13 @@ This matters because it shows that food at home and food away from home may not 
 
 ## Food Category Trends
 
-Next, we compare several major food categories. This helps us see whether all types of food changed similarly or whether some categories increased more than others. @fig-food-categories shows CPI trends across the major food categories in our data.
+Next, we compare several major food categories. This helps us see whether all types of food changed similarly or whether some categories increased more than others. Figure 2 shows CPI trends across the major food categories in our data.
 
 ```{r}
 #| label: fig-food-categories
 #| fig-cap: "CPI trends for major food categories over time."
 #| fig-alt: "Line graph showing CPI trends for food and beverages, fruits and vegetables, meat and poultry, and nonalcoholic beverages. All categories increase over time, but they rise at different rates."
+#| fig-pos: "H"
 
 # Code Header
 # Primary Author: Shaan Patel
@@ -182,6 +186,8 @@ ggplot(food_categories, aes(x = Date, y = Index, color = Category)) +
 ```
 
 This graph helps us compare major food categories over time. If the lines rise at different speeds, that suggests some categories became more expensive faster than others.
+
+\newpage
 
 ## Overall Category Changes
 
@@ -202,7 +208,7 @@ compute_percent_increase <- function(df_long) {
     summarize(Index = mean(Index, na.rm = TRUE), .groups = "drop") %>%
     pivot_wider(names_from = Year, values_from = Index) %>%
     mutate(
-      Percent_Increase = (`2025` - `2000`) / `2000` * 100
+      `Percent Increase` = (`2025` - `2000`) / `2000` * 100
     )
 }
 
@@ -214,18 +220,19 @@ kable(
 )
 ```
 
-Table 1 summarizes how much each category increased between 2000 and 2025.
+Table 1 summarizes how much each category increased between 2000 and 2025. This helps us compare categories more directly than a line graph alone.
 
 ```{r}
 #| label: fig-category-percent-increase
 #| fig-cap: "Percent increase in CPI by food category from 2000 to 2025."
 #| fig-alt: "Bar chart showing percent increase in CPI by food category. Meat and poultry has the largest percent increase, while nonalcoholic beverages has the smallest percent increase among the categories shown."
+#| fig-pos: "H"
 
 # Code Header
 # Primary Author: Shaan Patel
 # Reviewers: Tammar Reza and Logan Howard
 
-ggplot(category_increases, aes(x = reorder(Category, Percent_Increase), y = Percent_Increase)) +
+ggplot(category_increases, aes(x = reorder(Category, `Percent Increase`), y = `Percent Increase`)) +
   geom_col(width = 0.7) +
   coord_flip() +
   labs(
@@ -236,7 +243,9 @@ ggplot(category_increases, aes(x = reorder(Category, Percent_Increase), y = Perc
   theme_minimal(base_size = 14)
 ```
 
-@fig-category-percent-increase makes it easier to see which food categories increased the most overall. Categories with taller bars had larger percent increases over the time period.
+Figure 3 makes it easier to see which food categories increased the most overall. Categories with taller bars had larger percent increases over the time period.
+
+\newpage
 
 # Main Findings
 
@@ -382,7 +391,7 @@ compute_percent_increase <- function(df_long) {
     summarize(Index = mean(Index, na.rm = TRUE), .groups = "drop") %>%
     pivot_wider(names_from = Year, values_from = Index) %>%
     mutate(
-      Percent_Increase = (`2025` - `2000`) / `2000` * 100
+      `Percent Increase` = (`2025` - `2000`) / `2000` * 100
     )
 }
 
@@ -394,7 +403,7 @@ kable(
   caption = "Percent increase in CPI by food category from 2000 to 2025."
 )
 
-ggplot(category_increases, aes(x = reorder(Category, Percent_Increase), y = Percent_Increase)) +
+ggplot(category_increases, aes(x = reorder(Category, `Percent Increase`), y = `Percent Increase`)) +
   geom_col(width = 0.7) +
   coord_flip() +
   labs(
