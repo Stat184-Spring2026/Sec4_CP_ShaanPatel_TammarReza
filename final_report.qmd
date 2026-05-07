@@ -214,7 +214,7 @@ kable(
 )
 ```
 
-@Table-category-increases summarizes how much each category increased between 2000 and 2025. This helps us compare categories more directly than a line graph alone.
+Table 1 summarizes how much each category increased between 2000 and 2025.
 
 ```{r}
 #| label: fig-category-percent-increase
