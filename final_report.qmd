@@ -75,32 +75,32 @@ make_long_cpi <- function(file_name, category_name) {
 }
 
 food_and_beverages_long <- make_long_cpi(
-  "data/food and beverages.xlsx",
+  "Food and beverages.xlsx",
   "Food & Beverages"
 )
 
 meat_long <- make_long_cpi(
-  "data/meat and poultry.xlsx",
+  "Meat and poultry.xlsx",
   "Meat & Poultry"
 )
 
 fruits_and_veggies_long <- make_long_cpi(
-  "data/fruits and vegetables.xlsx",
+  "Fruits and vegetables.xlsx",
   "Fruits & Vegetables"
 )
 
 bevs_long <- make_long_cpi(
-  "data/nonalcoholic beverages.xlsx",
+  "Nonalcoholic beverages.xlsx",
   "Nonalcoholic Beverages"
 )
 
 restaurants_long <- make_long_cpi(
-  "data/restaurants.xlsx",
+  "Restaurants.xlsx",
   "Restaurants"
 )
 
 groceries_long <- make_long_cpi(
-  "data/groceries.xlsx",
+  "Groceries.xlsx",
   "Groceries"
 )
 
