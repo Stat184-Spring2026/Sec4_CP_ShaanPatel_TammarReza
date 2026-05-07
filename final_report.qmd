@@ -1,7 +1,11 @@
 ---
 title: "Food Price Changes Over Time in the United States"
 author: "Shaan Patel, Tammar Reza, Logan Howard"
-format: pdf
+format:
+  pdf:
+    include-in-header:
+      text: |
+        \usepackage{float}
 execute:
   echo: false
   warning: false
@@ -37,27 +41,33 @@ Our main research questions are:
 
 # Data Sources and Provenance
 
-Our project uses public data sources related to food prices in the United States. The main sources we plan to use are the U.S. Bureau of Labor Statistics Consumer Price Index data, FRED Federal Reserve Economic Data, and the USDA Economic Research Service.
+Our project uses public data sources related to food prices in the United States. The main sources are the U.S. Bureau of Labor Statistics Consumer Price Index data, FRED Federal Reserve Economic Data, and the USDA Economic Research Service.
 
 The Consumer Price Index, also called CPI, is used to measure how prices change over time. In this project, we use CPI data to compare changes in grocery prices, restaurant prices, and major food categories.
 
 The data are useful for our project because they are real, public, and focused on price changes over time. These data sources also give us multiple categories to compare, which helps us create stronger visualizations and a clearer exploratory analysis.
 
+The data were originally collected and published by public economic and government sources. The data focus on national price trends in the United States. Since the data are already organized by food category and time period, they are useful for comparing long-term changes in food prices.
+
 # FAIR and CARE Principles
 
 ## FAIR Principles
 
-The data are findable because they are available through public sources such as BLS, FRED, and USDA ERS. The data are accessible because they can be downloaded or viewed online. The data are interoperable because they can be cleaned, organized, and analyzed in R. The data are reusable because they are documented and can be cited in our final report.
+The data are **findable** because they are available through public sources such as BLS, FRED, and USDA ERS. The data are **accessible** because they can be downloaded or viewed online. The data are **interoperable** because they can be cleaned, organized, and analyzed in R. The data are **reusable** because they are documented and can be cited in our final report.
 
 ## CARE Principles
 
-The data support collective benefit because they help people understand how food prices have changed over time. Since the data are public and aggregated, they do not include private personal information. We still need to use the data responsibly by explaining limitations clearly and avoiding claims that go beyond what our exploratory analysis can show.
+The data support **collective benefit** because they help people understand how food prices have changed over time. Since the data are public and aggregated, they do not include private personal information. We still need to use the data responsibly by explaining limitations clearly and avoiding claims that go beyond what our exploratory analysis can show.
 
 # Data Cleaning and Preparation
 
 The first step in our analysis is to import the CPI data into R and organize it into a format that is easier to graph and summarize. The original Excel files contain separate columns for each month, so we reshape the data into a longer format with one row for each month and year.
 
 ```{r}
+# Code Header
+# Primary Author: Shaan Patel
+# Reviewers: Tammar Reza and Logan Howard
+
 make_long_cpi <- function(file_name, category_name) {
   read_excel(file_name, skip = 11) %>%
     select(Year, Jan:Dec) %>%
@@ -75,32 +85,32 @@ make_long_cpi <- function(file_name, category_name) {
 }
 
 food_and_beverages_long <- make_long_cpi(
-  "data/food and beverages.xlsx",
+  "Food and beverages.xlsx",
   "Food & Beverages"
 )
 
 meat_long <- make_long_cpi(
-  "data/meat and poultry.xlsx",
+  "Meat and poultry.xlsx",
   "Meat & Poultry"
 )
 
 fruits_and_veggies_long <- make_long_cpi(
-  "data/fruits and vegetables.xlsx",
+  "Fruits and Vegetables.xlsx",
   "Fruits & Vegetables"
 )
 
 bevs_long <- make_long_cpi(
-  "data/nonalcoholic beverages.xlsx",
+  "Nonalcoholic beverages.xlsx",
   "Nonalcoholic Beverages"
 )
 
 restaurants_long <- make_long_cpi(
-  "data/restaurants.xlsx",
+  "Restaurants.xlsx",
   "Restaurants"
 )
 
 groceries_long <- make_long_cpi(
-  "data/groceries.xlsx",
+  "Groceries.xlsx",
   "Groceries"
 )
 
@@ -123,9 +133,18 @@ This cleaning process makes the data easier to compare across time and across ca
 
 ## Grocery Prices vs Restaurant Prices
 
-One of our main questions is whether grocery prices and restaurant prices changed in the same way over time. The graph below compares CPI trends for groceries and restaurants.
+One of our main questions is whether grocery prices and restaurant prices changed in the same way over time. Figure 1 compares CPI trends for groceries and restaurants.
 
 ```{r}
+#| label: fig-grocery-restaurant
+#| fig-cap: "CPI trends for grocery prices and restaurant prices over time."
+#| fig-alt: "Line graph comparing grocery CPI and restaurant CPI over time. Both lines increase, but restaurant prices rise more steadily while grocery prices show more uneven movement."
+#| fig-pos: "H"
+
+# Code Header
+# Primary Author: Shaan Patel
+# Reviewers: Tammar Reza and Logan Howard
+
 ggplot(combined_food_location, aes(x = Date, y = Index, color = Category)) +
   geom_line(linewidth = 1.2) +
   labs(
@@ -143,9 +162,18 @@ This matters because it shows that food at home and food away from home may not 
 
 ## Food Category Trends
 
-Next, we compare several major food categories. This helps us see whether all types of food changed similarly or whether some categories increased more than others.
+Next, we compare several major food categories. This helps us see whether all types of food changed similarly or whether some categories increased more than others. Figure 2 shows CPI trends across the major food categories in our data.
 
 ```{r}
+#| label: fig-food-categories
+#| fig-cap: "CPI trends for major food categories over time."
+#| fig-alt: "Line graph showing CPI trends for food and beverages, fruits and vegetables, meat and poultry, and nonalcoholic beverages. All categories increase over time, but they rise at different rates."
+#| fig-pos: "H"
+
+# Code Header
+# Primary Author: Shaan Patel
+# Reviewers: Tammar Reza and Logan Howard
+
 ggplot(food_categories, aes(x = Date, y = Index, color = Category)) +
   geom_line(linewidth = 1.1) +
   labs(
@@ -159,11 +187,20 @@ ggplot(food_categories, aes(x = Date, y = Index, color = Category)) +
 
 This graph helps us compare major food categories over time. If the lines rise at different speeds, that suggests some categories became more expensive faster than others.
 
+\newpage
+
 ## Overall Category Changes
 
 To make the category comparison easier to understand, we also calculate the percent increase from 2000 to 2025. We use 2025 instead of 2026 because 2026 may not contain a full year of data.
 
 ```{r}
+#| label: tbl-category-increases
+#| tbl-cap: "Percent increase in CPI by food category from 2000 to 2025."
+
+# Code Header
+# Primary Author: Shaan Patel
+# Reviewers: Tammar Reza and Logan Howard
+
 compute_percent_increase <- function(df_long) {
   df_long %>%
     filter(Year %in% c(2000, 2025)) %>%
@@ -171,7 +208,7 @@ compute_percent_increase <- function(df_long) {
     summarize(Index = mean(Index, na.rm = TRUE), .groups = "drop") %>%
     pivot_wider(names_from = Year, values_from = Index) %>%
     mutate(
-      Percent_Increase = (`2025` - `2000`) / `2000` * 100
+      `Percent Increase` = (`2025` - `2000`) / `2000` * 100
     )
 }
 
@@ -179,18 +216,24 @@ category_increases <- compute_percent_increase(food_categories)
 
 kable(
   category_increases,
-  digits = 1,
-  caption = "Percent increase in CPI by food category from 2000 to 2025."
+  digits = 1
 )
 ```
 
-The table summarizes how much each category increased between 2000 and 2025. This helps us compare categories more directly than a line graph alone.
+Table 1 summarizes how much each category increased between 2000 and 2025. This helps us compare categories more directly than a line graph alone.
 
 ```{r}
-ggplot(category_increases, aes(x = reorder(Category, `Percent Increase`), 
-                               y = `Percent Increase`, 
-                               fill = Category)) +  # 1. Added fill here
-  geom_col(width = 0.7) +                           # 2. Keep this clean
+#| label: fig-category-percent-increase
+#| fig-cap: "Percent increase in CPI by food category from 2000 to 2025."
+#| fig-alt: "Bar chart showing percent increase in CPI by food category. Meat and poultry has the largest percent increase, while nonalcoholic beverages has the smallest percent increase among the categories shown."
+#| fig-pos: "H"
+
+# Code Header
+# Primary Author: Shaan Patel
+# Reviewers: Tammar Reza and Logan Howard
+
+ggplot(category_increases, aes(x = reorder(Category, `Percent Increase`), y = `Percent Increase`)) +
+  geom_col(width = 0.7) +
   coord_flip() +
   labs(
     title = "Percent Increase in Food Category CPI",
@@ -200,7 +243,9 @@ ggplot(category_increases, aes(x = reorder(Category, `Percent Increase`),
   theme_minimal(base_size = 14)
 ```
 
-This bar chart makes it easier to see which food categories increased the most overall. Categories with taller bars had larger percent increases over the time period.
+Figure 3 makes it easier to see which food categories increased the most overall. Categories with taller bars had larger percent increases over the time period.
+
+\newpage
 
 # Main Findings
 
@@ -211,6 +256,8 @@ Based on our exploratory analysis, we found several important patterns:
 3. Restaurant prices appeared to rise more steadily over time.
 4. Grocery prices showed more uneven movement during some periods.
 5. Some food categories increased more than others.
+6. Meat and poultry had the largest percent increase among the food categories we compared.
+7. Nonalcoholic beverages had the smallest percent increase among the food categories we compared.
 
 These findings help answer our research questions and show why food price changes are useful to study with exploratory data analysis.
 
@@ -228,11 +275,19 @@ This project explores how food prices in the United States have changed over tim
 
 Overall, our analysis shows that food prices have increased, but not all food prices changed in the same way. This supports the importance of comparing different food categories instead of only looking at food prices as one overall group.
 
+# References
+
+U.S. Bureau of Labor Statistics. Consumer Price Index data. https://www.bls.gov/cpi/
+
+Federal Reserve Bank of St. Louis. FRED Economic Data. https://fred.stlouisfed.org/
+
+USDA Economic Research Service. Food Price Outlook. https://www.ers.usda.gov/data-products/food-price-outlook/
+
 # Author Contributions
 
 Shaan Patel contributed to the project planning, README, GitHub setup, project plan, data organization, R analysis code, visualizations, report writing, and final editing.
 
-Tammar Reza contributed to the project topic development, data source discussion, data cleaning review, work in progress presentation materials, and report editing.
+Tammar Reza contributed to the project topic development, data source discussion, data cleaning review, work-in-progress presentation materials, and report editing.
 
 Logan Howard contributed to the project development, GitHub collaboration, data source review, visualization review, and final report feedback.
 
@@ -243,8 +298,7 @@ All three team members contributed to the overall project direction, reviewed pr
 ```{r, echo=TRUE, eval=FALSE}
 # Style Guide: Tidyverse Style Guide
 # Code Header
-# Primary Author: Shaan Patel
-# Reviewer: Tammar Reza
+# Author: Shaan Patel Tammar Reza and Logan Howard
 
 library(readxl)
 library(tidyverse)
@@ -268,32 +322,32 @@ make_long_cpi <- function(file_name, category_name) {
 }
 
 food_and_beverages_long <- make_long_cpi(
-  "data/food and beverages.xlsx",
+  "Food and beverages.xlsx",
   "Food & Beverages"
 )
 
 meat_long <- make_long_cpi(
-  "data/meat and poultry.xlsx",
+  "Meat and poultry.xlsx",
   "Meat & Poultry"
 )
 
 fruits_and_veggies_long <- make_long_cpi(
-  "data/fruits and vegetables.xlsx",
+  "Fruits and Vegetables.xlsx",
   "Fruits & Vegetables"
 )
 
 bevs_long <- make_long_cpi(
-  "data/nonalcoholic beverages.xlsx",
+  "Nonalcoholic beverages.xlsx",
   "Nonalcoholic Beverages"
 )
 
 restaurants_long <- make_long_cpi(
-  "data/restaurants.xlsx",
+  "Restaurants.xlsx",
   "Restaurants"
 )
 
 groceries_long <- make_long_cpi(
-  "data/groceries.xlsx",
+  "Groceries.xlsx",
   "Groceries"
 )
 
@@ -336,7 +390,7 @@ compute_percent_increase <- function(df_long) {
     summarize(Index = mean(Index, na.rm = TRUE), .groups = "drop") %>%
     pivot_wider(names_from = Year, values_from = Index) %>%
     mutate(
-      Percent_Increase = (`2025` - `2000`) / `2000` * 100
+      `Percent Increase` = (`2025` - `2000`) / `2000` * 100
     )
 }
 
@@ -348,7 +402,7 @@ kable(
   caption = "Percent increase in CPI by food category from 2000 to 2025."
 )
 
-ggplot(category_increases, aes(x = reorder(Category, Percent_Increase), y = Percent_Increase)) +
+ggplot(category_increases, aes(x = reorder(Category, `Percent Increase`), y = `Percent Increase`)) +
   geom_col(width = 0.7) +
   coord_flip() +
   labs(
