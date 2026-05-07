@@ -1,6 +1,6 @@
 ---
 title: "Food Price Changes Over Time in the United States"
-author: "Shaan Patel and Tammar Reza"
+author: "Shaan Patel, Tammar Reza, Logan Howard"
 format: pdf
 execute:
   echo: false
@@ -11,8 +11,6 @@ execute:
 ```{r}
 # Style Guide: Tidyverse Style Guide
 # Code Header
-# Primary Author: Shaan Patel
-# Reviewer: Tammar Reza
 
 library(readxl)
 library(tidyverse)
@@ -232,9 +230,11 @@ Overall, our analysis shows that food prices have increased, but not all food pr
 
 Shaan Patel contributed to the project planning, README, GitHub setup, project plan, data organization, R analysis code, visualizations, report writing, and final editing.
 
-Tammar Reza contributed to the project topic development, data source discussion, work-in-progress presentation materials, and project review.
+Tammar Reza contributed to the project topic development, data source discussion, data cleaning review, work in progress presentation materials, and report editing.
 
-Both team members were part of the project team and contributed to the overall project direction.
+Logan Howard contributed to the project development, GitHub collaboration, data source review, visualization review, and final report feedback.
+
+All three team members contributed to the overall project direction, reviewed project materials, and helped develop the final report.
 
 # Code Appendix
 
