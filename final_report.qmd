@@ -232,8 +232,10 @@ Table 1 summarizes how much each category increased between 2000 and 2025. This 
 # Primary Author: Shaan Patel
 # Reviewers: Tammar Reza and Logan Howard
 
-ggplot(category_increases, aes(x = reorder(Category, `Percent Increase`), y = `Percent Increase`)) +
-  geom_col(width = 0.7) +
+ggplot(category_increases, aes(x = reorder(Category, `Percent Increase`), 
+                               y = `Percent Increase`, 
+                               fill = Category)) +  # 1. Added fill here
+  geom_col(width = 0.7) +                           # 2. Keep this clean
   coord_flip() +
   labs(
     title = "Percent Increase in Food Category CPI",
