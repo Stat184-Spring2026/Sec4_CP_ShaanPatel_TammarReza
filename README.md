@@ -51,6 +51,6 @@ We will keep updating this repo as the project moves forward.
 
 ## Authors
 
-This project was created by Shaan Patel and Tammar Reza for Stat 184.
+This project was created by Shaan Patel, Tammar Reza, and Logan Howard for Stat 184.
 
 If anyone has questions about the project, they can contact us through GitHub.
